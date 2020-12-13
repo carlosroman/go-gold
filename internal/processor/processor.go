@@ -1,7 +1,7 @@
 package processor
 
 type Processor interface {
-	Run(csvFile, outputDir string) error
+	Run(csvFile Reader, outputDir string) error
 }
 
 func New() Processor {
@@ -11,6 +11,6 @@ func New() Processor {
 type processor struct {
 }
 
-func (p processor) Run(csvFile, outputDir string) (err error) {
+func (p processor) Run(csvFile Reader, outputDir string) (err error) {
 	return err
 }
