@@ -38,7 +38,7 @@ func TestReader_Read(t *testing.T) {
 		{
 			name: "filter_too_old",
 			fields: fields{
-				csvData: "Niyah,Singleton,niyah.singleton@mailinator.com,CARD SPEND,5462,682.28,GBP,GBP,1,12/05/2020 08:22",
+				csvData: "Niyah,Singleton,niyah.singleton@mailinator.com,CARD SPEND,5462,682.28,GBP,GGM,1,12/05/2020 08:22",
 				endDate: "2020-11-13",
 			},
 			wantRecord: nil,
@@ -46,7 +46,7 @@ func TestReader_Read(t *testing.T) {
 		{
 			name: "filter_too_new",
 			fields: fields{
-				csvData: "Niyah,Singleton,niyah.singleton@mailinator.com,CARD SPEND,5462,682.28,GBP,GBP,1,12/05/2020 08:22",
+				csvData: "Niyah,Singleton,niyah.singleton@mailinator.com,CARD SPEND,5462,682.28,GBP,GGM,1,12/05/2020 08:22",
 				endDate: "2020-05-11",
 			},
 			wantRecord: nil,
@@ -119,4 +119,13 @@ func assertRead(t *testing.T, r Reader, expected string) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, read)
 	assert.Equal(t, expected, read[0])
+}
+
+func TestNewReader_correctDates(t *testing.T) {
+
+	endDate, err := time.Parse(layoutISO, "2020-06-01")
+	require.NoError(t, err)
+	r := NewReader(strings.NewReader(""), endDate)
+	assert.Equal(t, endDate, r.GetEndDate())
+	assert.Equal(t, endDate.AddDate(0, -6, 0), r.GetStartDate())
 }
