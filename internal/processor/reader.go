@@ -18,6 +18,8 @@ const (
 
 type Reader interface {
 	Read() (record []string, err error)
+	GetEndDate() time.Time
+	GetStartDate() time.Time
 }
 
 func NewReader(r io.Reader, endDate time.Time) Reader {
@@ -34,6 +36,14 @@ type reader struct {
 	startDate time.Time
 	endDate   time.Time
 	once      *sync.Once
+}
+
+func (r reader) GetEndDate() time.Time {
+	return r.endDate
+}
+
+func (r reader) GetStartDate() time.Time {
+	return r.startDate
 }
 
 func (r reader) Read() (record []string, err error) {

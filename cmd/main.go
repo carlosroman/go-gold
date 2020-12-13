@@ -18,7 +18,7 @@ func main() {
 		_, _ = fmt.Fprint(os.Stderr, err)
 		os.Exit(1)
 	}
-	if err := processFile(processor.New(), r, args[1], time.Now()); err != nil {
+	if err := processFile(processor.New(processor.NewStores()), r, args[1], time.Now()); err != nil {
 		_, _ = fmt.Fprint(os.Stderr, err)
 		os.Exit(2)
 	}
