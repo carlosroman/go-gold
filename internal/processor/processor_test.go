@@ -63,6 +63,34 @@ func TestProcessor_Run(t *testing.T) {
 	assert.Equal(t, "date,first_name,last_name,total\nflush\nflush\nflush\nflush\nflush\nflush\n", string(content))
 }
 
+func TestProcessor_Run_invalid(t *testing.T) {
+	dir, err := ioutil.TempDir("", "")
+	require.NoError(t, err)
+	defer os.RemoveAll(dir)
+	finalCSV := path.Join(dir, "test.csv")
+	endDate, err := time.Parse(layoutISO, "2020-05-20")
+	require.NoError(t, err)
+
+	testStores := testStores()
+	p := New([]Store{
+		&testStores[0],
+	})
+	testStores[0].On("Flush").Return(strings.NewReader(""))
+
+	sr := &stubReader{
+		records: [][]string{
+			{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"},
+		},
+		endDate: endDate,
+		err:     io.EOF,
+	}
+	err = p.Run(sr, finalCSV)
+	content, err := ioutil.ReadFile(finalCSV)
+	assert.NoError(t, err)
+	assert.Equal(t, "date,first_name,last_name,total\n", string(content))
+	testStores[0].AssertNotCalled(t, "Save", mock.Anything)
+}
+
 func getRecord(name, date string) []string {
 	return []string{name, "Test", "name.test@mailinator.com", "CARD SPEND", "5462", "682.28", "GBP", "GGM", "1", date}
 }

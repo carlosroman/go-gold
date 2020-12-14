@@ -40,6 +40,10 @@ func NewStores() []Store {
 		&store{
 			m:    make(map[string]float64, 100),
 			once: &sync.Once{},
+		},
+		&store{
+			m:    make(map[string]float64, 100),
+			once: &sync.Once{},
 		}}
 }
 

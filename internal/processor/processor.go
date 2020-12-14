@@ -26,7 +26,7 @@ func (p processor) Run(csvFile Reader, outputFile string) (err error) {
 		return err
 	}
 	stores := make(map[time.Month]Store)
-	for i := 0; i < 6; i++ {
+	for i := 0; i < len(p.stores); i++ {
 		key := csvFile.GetEndDate().AddDate(0, -i, 0)
 		stores[key.Month()] = p.stores[i]
 	}
@@ -39,15 +39,17 @@ func (p processor) Run(csvFile Reader, outputFile string) (err error) {
 		if err != nil {
 			return err
 		}
-		t, _ := time.Parse(dateFormat, record[dateColumn])
-		stores[t.Month()].Save(record)
+		if len(record) == 10 {
+			t, _ := time.Parse(dateFormat, record[dateColumn])
+			stores[t.Month()].Save(record)
+		}
 	}
 	_, err = outCSV.WriteString("date,first_name,last_name,total\n")
 	if err != nil {
 		return err
 	}
-	for i := 0; i < 6; i++ {
-		_, err = io.Copy(outCSV, p.stores[i].Flush())
+	for i := range stores {
+		_, err = io.Copy(outCSV, stores[i].Flush())
 		if err != nil {
 			return err
 		}

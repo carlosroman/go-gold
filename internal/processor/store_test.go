@@ -11,7 +11,7 @@ import (
 )
 
 func TestNewStores(t *testing.T) {
-	assert.Len(t, processor.NewStores(), 6)
+	assert.Len(t, processor.NewStores(), 7)
 }
 
 func TestStore(t *testing.T) {
