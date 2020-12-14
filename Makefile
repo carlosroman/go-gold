@@ -39,10 +39,10 @@ quick-start: docker/go-get
 	@printf '\n================================================================\n'
 	$(DOCKER_BIN) run --rm -it -v ${CURDIR}:/app -w /app golang:1.14 make start
 
-bin/rover: go-get
-	$(GO_BIN) build -o ${CURDIR}/bin/rover ./cmd/rover
+bin/gold: go-get
+	$(GO_BIN) build -o ${CURDIR}/bin/gold ./cmd/
 
-build: bin/rover
+build: bin/gold
 
 .PHONY: test
 test: go-get
@@ -55,6 +55,9 @@ test: go-get
 docker/test:
 	@($(DOCKER_BIN) run --rm -it -v ${CURDIR}:/app -w /app golang:1.14 make test)
 
+INPUT	?= ${CURDIR}/test/data/sample-transactions.csv
+OUTPUT	?= ${CURDIR}/test/data/out.csv
+
 .PHONY: start
 start:
-	$(GO_BIN) run ./cmd/
+	$(GO_BIN) run ./cmd/ ${INPUT} ${OUTPUT}
