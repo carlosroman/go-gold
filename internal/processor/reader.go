@@ -8,6 +8,10 @@ import (
 )
 
 const (
+	firstNameColumn   = 0
+	lastNameColumn    = 1
+	amountColumn      = 5
+	ratetColumn       = 8
 	goldCurrency      = "GGM"
 	toCurrencyColumn  = 7
 	cardSpend         = "CARD SPEND"
