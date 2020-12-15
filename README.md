@@ -1,7 +1,7 @@
 # go-gold
 A simple implementation of the martian robots kata.
 ![Build](https://github.com/carlosroman/go-gold/workflows/Run%20tests/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/carlosroman/go-gold/badge.svg?branch=master)](https://coveralls.io/github/carlosroman/go-gold?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/carlosroman/go-gold/badge.svg?branch=main)](https://coveralls.io/github/carlosroman/go-gold?branch=main)
 ---
 
 ## Table of Contents
